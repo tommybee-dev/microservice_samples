@@ -1,0 +1,1131 @@
+http://www.msaez.io/#/login-page?courseId=Container-Orchestration&classId=running%40winter-4th
+http://msaschool.io/operation/operation/operation-two/
+오류 디버깅
+http://msaschool.io/operation/checkpoint/check-point-one/
+
+
+서비스 및 배치 등을 확인 하는 명령어
+kubectl get pod -o wide -n kafka
+kubectl get services --all-namespaces
+kubectl get deployments --all-namespaces
+kubectl get pods --all-namespaces
+
+kubectl get ns
+kubectl get pod -n team03
+
+kubectl delete svc customer -n team03
+kubectl delete deployment customer -n team03
+kubectl get pod -n team03
+kubectl delete pod  -n team03
+
+네임스페이스 변경
+
+
+삭제 명령
+
+kubectl delete svc customer gateway taxiassign taxicall taximanage
+kubectl delete deployment customer gateway taxiassign taxicall taximanage
+
+
+kubectl delete svc customer taxiassign taxicall taximanage
+kubectl delete deployment customer taxiassign taxicall taximanage
+
+
+kubectl delete svc,deployment taxicall
+
+kubectl get all
+
+kubectl exec -it taxicall-55d8c48c4d-62lc4 -- /bin/bash
+
+오류 : starting container process caused: exec: "/bin/bash": stat /bin/bash: no such file or directory: unknown
+kubectl exec -it taxicall-55d8c48c4d-62lc4 -- /bin/sh
+
+
+kubectl exec -it taxicall-74c97c5f84-xn4qk -- /bin/sh
+
+
+카프카가 잘 구동하는 지여부를 확인 하는 명령
+watch kubectl get all -n kafka
+
+
+Every 2.0s: kubectl get all -n kafka                                  labs-1715357283: Wed Mar  3 11:26:19 2021
+
+NAME                       READY   STATUS    RESTARTS   AGE
+pod/my-kafka-0             1/1     Running   4          73m
+pod/my-kafka-1             1/1     Running   0          67m
+pod/my-kafka-2             1/1     Running   0          65m
+pod/my-kafka-zookeeper-0   1/1     Running   0          73m
+pod/my-kafka-zookeeper-1   1/1     Running   0          72m
+pod/my-kafka-zookeeper-2   1/1     Running   0          72m
+
+NAME                                  TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+service/my-kafka                      ClusterIP   10.0.198.203   <none>        9092/TCP                     73m
+service/my-kafka-headless             ClusterIP   None           <none>        9092/TCP                     73m
+service/my-kafka-zookeeper            ClusterIP   10.0.158.121   <none>        2181/TCP                     73m
+service/my-kafka-zookeeper-headless   ClusterIP   None           <none>        2181/TCP,3888/TCP,2888/TCP   73m
+NAME                                  READY   AGE
+statefulset.apps/my-kafka             3/3     73m
+statefulset.apps/my-kafka-zookeeper   3/3     73m
+
+
+watch kubectl get pvc -n kafka
+
+Every 2.0s: kubectl get pvc -n kafka                                  labs-1715357283: Wed Mar  3 11:26:39 2021
+
+NAME                 STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS
+   AGE
+datadir-my-kafka-0   Bound    pvc-aa55acd9-18af-484e-b1e4-2272319f77de   1Gi        RWO            managed
+   73m
+datadir-my-kafka-1   Bound    pvc-f0874112-f140-4a7d-9677-2101450c187e   1Gi        RWO            managed
+   67m
+datadir-my-kafka-2   Bound    pvc-d87a807d-c4d5-44c4-9e3c-cc0b242f4bcc   1Gi        RWO            managed
+   65m
+
+
+
+
+
+
+
+cncf.io
+
+접속키 : cloud
+
+만들기
+portal.azure.com
+
+주요정보
+skTeam03	3팀
+백영곤	skuser08	
+
+skuser08@gkn2021hotmail.onmicrosoft.com	
+비번 Skcc#123
+
+바뀔 비번: SkccAdm@123
+
+리소스 그룹명 : skuser08-rsrcgrp
+클러스터 명 : skuser08-aks
+레지스트리 명 : skuser08
+
+카프카 클러스터 명 : skccteam03-rsrckaf
+카프카 클러스터 사용자 : user
+카프카 클러스터 암호 : SkccTeam3@123
+Authentication type 암호로 SkccTeam3@123
+
+1. 리소스 그룹 생성
+https://portal.azure.com/#home 에서 '리소스 그룹' 선택
+그룹명 : skccteam03-rsrcgrp
+배포가 완료 됨을 확인 하고 그 다음 작업을 진행한다.
+
+2. 클러스터 생성 
+https://portal.azure.com/#home 에서 'Kubenetes 서비스' 선택
+클러스터 명 : skccteam03-aks
+생성을 완료 됨을 확인 하고 그 다음 작업을 진행한다.
+
+3.클러스터 생성
+https://portal.azure.com/#home 에서 'Kubenetes 서비스' 선택
+레지스트리 명 : skccteam03
+혹은 다음 명령을 사용한다.
+az aks create --resource-group skccteam03-rsrcgrp --name skccteam03-aks --node-count 2 --enable-addons monitoring --generate-ssh-keys
+생성을 완료 됨을 확인 하고 그 다음 작업을 진행한다.
+
+4. 레지스트리 생성 
+https://portal.azure.com/#home 에서 '컨테이너레지스트리' 선택
+
+4. az login
+ az login
+ az login --use-device-code
+The default web browser has been opened at https://login.microsoftonline.com/common/oauth2/authorize. Please continue the login in the web browser. If no web browser is available or if the web browser fails to open, use device code flow with `az login --use-device-code`.
+You have logged in. Now let us find all the subscriptions to which you have access...
+[
+  {
+    "cloudName": "AzureCloud",
+    "homeTenantId": "6011e3f8-2818-42ea-9a63-66e6acc13e33",
+    "id": "718b6bd0-fb75-4ec9-9f6e-08ae501f92ca",
+    "isDefault": true,
+    "managedByTenants": [],
+    "name": "종량제2",
+    "state": "Enabled",
+    "tenantId": "6011e3f8-2818-42ea-9a63-66e6acc13e33",
+    "user": {
+      "name": "skTeam03@gkn2021hotmail.onmicrosoft.com",
+      "type": "user"
+    }
+  }
+]
+
+5. az account set --subscription "종량제2"
+
+
+
+6. 토큰 가져오기
+리소스 그룹명 : skuser08-rsrcgrp
+클러스터 명 : skuser08-aks
+레지스트리 명 : skuser08
+az aks get-credentials --resource-group skuser08-rsrcgrp --name skuser08-aks
+chmod -R 755 /home/tommybee/.kube/config
+
+
+7. Azure 클러스터(AKS)에 레지스트리(ACR) 붙이기
+리소스 그룹명 : skuser08-rsrcgrp
+클러스터 명 : skuser08-aks
+레지스트리 명 : skuser08
+az aks update -n skuser08-aks -g skuser08-rsrcgrp --attach-acr skuser08
+
+kubectl config current-context
+
+8. 네임스페이스 만들고 현재 컨텍스트에 붙이기
+kubectl create namespace skuser08ns
+kubectl config set-context skuser08-aks --namespace=skuser08ns
+
+8. 카프카 클러스터 만들기 - http://34.117.35.195/operation/implementation/implementation-seven/
+
+kubectl config current-context
+
+curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
+chmod 700 get_helm.sh
+./get_helm.sh
+
+helm version #버전확인
+
+버전 2:
+curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+kubectl --namespace kube-system create sa tiller      # helm 의 설치관리자를 위한 시스템 사용자 생성
+kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+helm init --service-account tiller
+kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+
+helm repo add incubator https://charts.helm.sh/incubator
+helm repo update
+helm install --name my-kafka --namespace kafka incubator/kafka
+
+버전3
+kubectl --namespace kube-system create sa tiller      # helm 의 설치관리자를 위한 시스템 사용자 생성
+kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+
+helm repo add incubator https://charts.helm.sh/incubator
+helm repo update
+kubectl create ns kafka
+helm install my-kafka --namespace kafka incubator/kafka
+
+
+
+버전 3:
+kubectl --namespace kube-system create sa tiller      # helm 의 설치관리자를 위한 시스템 사용자 생성
+kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+helm install my-kafka bitnami/kafka -n kafka
+
+# 카프카 Client 설치
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kafka-client
+  namespace: kafka
+spec:
+  containers:
+  - name: kafka
+    image: docker.io/bitnami/kafka:2.7.0-debian-10-r35
+    command:
+      - sh
+      - -c
+      - "sleep infinity"
+  restartPolicy: Never
+EOF
+
+
+8. 소스 다운로드 및 빌드
+git clone https://github.com/tommybee-dev/taxi-guide.git
+
+패키징 한다.
+cd gateway
+mvn clean && mvn package
+cd ..
+cd taxicall
+mvn clean && mvn package
+cd ..
+cd taximanage
+mvn clean && mvn package
+cd ..
+cd taxiassign
+mvn clean && mvn package
+cd ..
+
+8. 도커 이미지 만들어서 올리기
+
+
+cd customer_py
+az acr build --registry skccteam03 --image skccteam03.azurecr.io/customer-policy-handler:v1 .
+az acr build --registry skccteam03 --image skccteam03.azurecr.io/customer-policy-handler:v2 .
+
+한글버전
+cd taxicall
+az acr build --registry skccteam03 --image skccteam03.azurecr.io/taxicall:v1 .
+cd ..
+cd taximanage
+az acr build --registry skccteam03 --image skccteam03.azurecr.io/taximanage:v1 .
+cd ..
+cd taxiassign
+az acr build --registry skccteam03 --image skccteam03.azurecr.io/taxiassign:v1 .
+cd ..
+cd gateway
+az acr build --registry skccteam03 --image skccteam03.azurecr.io/gateway:v1 .
+az acr build --registry skccteam03 --image skccteam03.azurecr.io/gateway:v2 .
+
+영문버전
+cd taxicall_eng
+az acr build --registry skccteam03 --image skccteam03.azurecr.io/taxicalleng:v1 .
+az acr build --registry skccteam03 --image skccteam03.azurecr.io/taxicalleng:v2 .
+cd ..
+cd taximanage_eng
+az acr build --registry skccteam03 --image skccteam03.azurecr.io/taximanageeng:v1 .
+cd ..
+cd taxiassign_eng
+az acr build --registry skccteam03 --image skccteam03.azurecr.io/taxiassigneng:v1 .
+cd ..
+
+cd gateway_eng
+az acr build --registry skccteam03 --image skccteam03.azurecr.io/gatewayeng:v1 .
+
+
+az acr build --registry [acr-registry-name] --image [acr-registry-name].azurecr.io/products:v1 .
+
+
+9. 배포하기
+
+kubectl apply -f pod.yaml --namespace=team03
+
+cd ../../
+cd customer_py/kubernetes
+kubectl apply -f deployment.yml --namespace=team03
+kubectl apply -f service.yaml --namespace=team03
+
+한글버전 배포하기
+cd ../../
+cd taxicall/kubernetes
+kubectl apply -f deployment.yml --namespace=team03
+kubectl apply -f service.yaml --namespace=team03
+
+cd ../../
+cd taximanage/kubernetes
+kubectl apply -f deployment.yml --namespace=team03
+kubectl apply -f service.yaml --namespace=team03
+
+cd ../../
+cd taxiassign/kubernetes
+kubectl apply -f deployment.yml --namespace=team03
+kubectl apply -f service.yaml --namespace=team03
+
+cd gateway/kubernetes
+kubectl apply -f deployment.yml --namespace=team03
+kubectl apply -f service.yaml --namespace=team03
+
+영문버전 배포하기
+cd ../../
+cd taxicall_eng/kubernetes
+kubectl apply -f deployment.yml --namespace=team03
+kubectl apply -f service.yaml --namespace=team03
+
+cd ../../
+cd taximanage_eng/kubernetes
+kubectl apply -f deployment.yml --namespace=team03
+kubectl apply -f service.yaml --namespace=team03
+
+cd ../../
+cd taxiassign_eng/kubernetes
+kubectl apply -f deployment.yml --namespace=team03
+kubectl apply -f service.yaml --namespace=team03
+
+cd ../../
+cd gateway_eng/kubernetes
+kubectl apply -f deployment.yml --namespace=team03
+kubectl apply -f service.yaml --namespace=team03
+
+10. 서비스 확인하기
+kubectl get services,deployments,pods -n team03
+kubectl get deployments --all-namespaces
+kubectl get pods --all-namespaces
+
+
+11. 서비스 호출
+kubectl delete deployment,service customer taxiassign taxicall taximanage
+http 20.194.36.201:8080/taxicalls tel="01023456789" status="호출" cost=25500
+http 20.194.36.201:8080/taxicalls tel="01023456789" status="호출" cost=25500
+http 20.194.36.201:8080/taxicalls/1
+http 20.194.36.201:8080/taxicalls/2
+
+http delete http://20.194.36.201:8081/taxicalls/1
+
+
+트러블슈팅
+카프카 확인
+kubectl exec --tty -i kafka-client --namespace kafka -- bash
+
+kafka 모니터링
+kubectl -n kafka exec -ti my-kafka-0 -- /usr/bin/kafka-console-consumer --bootstrap-server my-kafka:9092 --topic mall --from-beginning
+
+
+
+kubectl get pod -o wide -n kafka
+kubectl get services --all-namespaces
+kubectl get deployments --all-namespaces
+kubectl get pods --all-namespaces
+
+kubectl describe pod taxiassign-7c76465f95-fzfxz
+kubectl describe pod taxicall-55d8c48c4d-4bt5v
+kubectl describe pod taximanage-7d6cbdf59c-vjrl9
+
+
+kubectl logs taxiassign-7c76465f95-fzfxz
+kubectl logs taxicall-55d8c48c4d-4bt5v
+kubectl logs taximanage-7d6cbdf59c-vjrl9
+
+
+my-kafka.kafka.svc.cluster.local:9092
+
+
+
+
+
+
+
+
+kubectl delete --all services --namespace=kafka
+kubectl delete --all deployments --namespace=kafka
+kubectl delete --all pods --namespace=kafka
+
+kubectl delete daemonsets,replicasets,services,deployments,pods,rc --all --namespace=kafka
+
+kubectl describe pod my-kafka-0 --namespace=kafka
+
+
+
+
+==================================================
+2. Azure Cluster 카프카 설치 문제
+==================================================
+
+* 카프카 서버 설치오류 원인 : Default StorageClass가 없음으로해서 기인함
+  > Azure Cloud에서 2/25 Patch
+
+  > Solution : 아래 명령어로 StorageClass의 default provisioner 설정
+     kubectl patch storageclass managed -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+
+  > 현재 kafka 네임스페이스가 생성되어 있으면 삭제 후, 
+     kubectl delete ns
+     msaschool.io 메뉴의 구현>이벤트기반 메시지채널 > 쿠버네티스에 카프카 설치 및 실행 section 참조.
+
+3. 이벤트스토밍 도구에서 코드 Generation 
+==================================================
+
+* 이벤트스토밍 도구에서 소스코드가 이전처럼 Generation되도록 조정함... 
+  > 크롬 브라우저에서 F12 버튼 누른 후, 페이지새로고침 상에서 마우스 오른쪽 버튼 클릭.
+  > 나타나는 컨텍스트 메뉴에서 "캐쉬 비우기 및 강력 새로고침"
+
+
+
+
+
+
+
+
+애저 구독을 위한 상속 구조 57 페이지 참고.
+
+리소스그룹 만들기
+https://portal.azure.com/#create/Microsoft.ResourceGroup
+skccteam03-rsrcgrp
+
+Kubernetes 클러스터 만들기
+skccteam03-aks
+
+컨테이너 레지스트리 만들기
+skccteam03
+
+
+> az login
+백영곤	skteam03@gkn2021hotmail.onmicrosoft.com	SkccTeam3@123
+
+Azure 클러스터 토큰 가져오기
+az aks get-credentials --resource-group skccteam03-rsrcgrp --name skccteam03-aks
+
+Azure 컨테이너 레지스트리 로그인
+az acr login --name skccteam03
+
+Azure 클러스터(AKS)에 레지스트리(ACR) 붙이기
+az aks update -n skccteam03-aks -g skccteam03-rsrcgrp --attach-acr skccteam03
+
+
+도커와 애저
+https://hub.docker.com/?ref=login
+
+docker image pull nginx
+docker run --name my-nginx -d -p 80:80 nginx
+docker container ls
+curl localhost:80
+하나더 만들어 본다.
+docker run --name my-nginx2 -d -p 8080:80 nginx
+docker container ls
+curl localhost:8080
+
+정리하기
+docker container stop my-nginx2 my-nginx
+docker container rm my-nginx2 my-nginx
+docker image rm nginx
+
+도커 빌드
+vi index.html
+"Hi~ My name is Baek Young Gon.."
+
+vi Dockerfile
+
+FROM nginx
+COPY index.html /usr/share/nginx/html/
+
+
+Kubernetes Core Concept : “Desired State” - 72 page
+Pod ; Kubernetes 최소 배포 단위” - 74 page
+Deployment, ReplicaSet, Pod
+
+애저 레지스트리와 토커
+docker build -t skccteam03.azurecr.io/my-nginx:v1 .
+
+docker images
+
+
+az acr login --name skccteam03
+docker push skccteam03.azurecr.io/my-nginx:v1
+#docker pull skccteam03.azurecr.io/my-nginx:v1
+kubectl create deployment my-nginx --image=skccteam03.azurecr.io/my-nginx:v1
+kubectl expose deploy my-nginx --type=LoadBalancer --port=80
+kubectl get service
+EXTERNAL-IP 로 브라우저를 열어보면 됨.
+
+
+kubectl delete deploy my-nginx
+kubectl delete service my-nginx
+
+
+디버깅 방법
+kubectl get pod
+
+describe 를 사용
+
+kubectl describe pod my-nginx-76cbb98994-hcdlz
+
+
+로그 확인
+kubectl logs my-nginx-7477855886-jmcg6
+
+컨테이너 내부 확인
+kubectl exec -it my-nginx-7477855886-2grg2 -- /bin/bash
+
+
+
+도커라이징 & Push
+docker build -t tommybee/my-nginx:v1 .
+docker images
+docker login
+docker push tommybee/my-nginx:v1
+테스트
+docker run --name my-nginx2 -d -p 8080:80 tommybee/my-nginx:v1
+
+curl localhost:8080
+클린하기
+docker container stop my-nginx2
+docker container rm my-nginx2
+docker image rm tommybee/my-nginx:v1
+
+
+
+
+kubectl get all
+아래와 같이 기본 세개가 쌍으로 만들어 진다.
+pod/my-nginx-7dff65ff84-xkbvl   1/1     Running   0          42s
+deployment.apps/my-nginx   1/1     1            1           42s
+replicaset.apps/my-nginx-7dff65ff84   1         1         1       42s
+
+
+kubectl get all
+NAME                 TYPE           CLUSTER-IP     EXTERNAL-IP    PORT(S)        AGE
+service/my-nginx     LoadBalancer   10.0.224.171   20.194.40.43   80:30546/TCP   3m25s
+
+모드 클리어
+
+
+kubectl get all
+
+
+
+
+
+
+
+kubectl 명령어
+
+kubectl get pod
+kubectl get pod my-nginx-7477855886-hs99t
+kubectl delete pod my-nginx-7477855886-hs99t
+kubectl get pod
+kubectl get deploy -o wide
+AME                        READY   STATUS    RESTARTS   AGE     IP           NODE                                NOMINATED NODE   READINESS GATES
+my-nginx-7477855886-nj22l   1/1     Running   0          3m59s   10.244.3.5   aks-agentpool-21373221-vmss000000   <none>           <none>
+kubectl get node
+NAME                                STATUS   ROLES   AGE     VERSION
+aks-agentpool-21373221-vmss000000   Ready    agent   5h24m   v1.18.14
+aks-agentpool-21373221-vmss000001   Ready    agent   5h24m   v1.18.14
+aks-agentpool-21373221-vmss000002   Ready    agent   5h25m   v1.18.14
+aks-agentpool-21373221-vmss000003   Ready    agent   5h25m   v1.18.14
+
+kubectl get deploy -o wide 에서 확인 한 NODE 명을 kubectl get node에서 확인 가능
+
+kubectl scale deploy my-nginx --replicas=3
+kubectl get pod
+kubectl get pod -o wide
+
+kubectl delete deploy my-nginx
+kubectl delete service --all
+
+
+
+
+declarative-pod.yaml
+==
+apiVersion: v1
+kind: Pod
+metadata:
+  name: declarative-pod
+spec:
+  containers:
+  - name: memory-demo-ctr
+    image: ghcr.io/gkedu/nginx
+==
+kubectl create -f declarative-pod.yaml
+kubectl delete pod declarative-pod
+
+다음과 같이 변경한다.
+==
+apiVersion: v1
+kind: Pod
+metadata:
+  name: declarative-pod
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: memory-demo-ctr
+    image: ghcr.io/gkedu/nginx
+==
+kubectl apply -f declarative-pod.yaml
+
+- kubectl get pods -l env=test
+- kubectl get pod -l app=ngingx
+- kubectl get pods --selector env=test
+- kubectl get pods --selector ‘env in (test, test1)’ # or 연산
+- kubectl get po --selector 'env in(test, test1), app in (nginx, nginx1)’ # and 연산
+- kubectl get po --selector 'env,app notin(nginx)’ # env가 있으면서, app이 nginx가 아닌 Pod
+
+
+git clone https://github.com/acmexii/mall.git
+git clone https://github.com/event-storming/container-orchestration.git
+cd container-orchestration
+cd yaml
+
+kubectl apply -f nginx.yaml
+(아래 명령으로 배포 주석 추가, Rollback시 필요)
+kubectl annotate deploy nginx-deployment kubernetes.io/change-cause="v1 is nginx:1.7.9"
+
+Set image 명령을 통한 이미지 Rollout 및 확인
+kubectl set image deploy nginx-deployment nginx=nginx:1.9.1
+(아래 명령으로 배포 주석 추가, Rollback시 필요)
+kubectl annotate deploy nginx-deployment kubernetes.io/change-cause="v2 is nginx:1.9.1"
+kubectl rollout history deploy nginx-deployment
+kubectl get deploy -o wide
+
+(롤백하기)
+kubectl rollout undo deploy nginx-deployment
+kubectl get deploy -o wide
+kubectl rollout undo deploy nginx-deployment --to-revision 5
+
+watch kubectl get pod
+
+
+kubectl get namespace
+kubectl top node
+kubectl top pod
+
+kubectl create ns tommybee
+kubectl create deploy nginx --image=nginx --namespace tommybee
+kubectl get all --namespace=tommybee
+
+네임스페이스 삭제 시 해당 네임스페이스 내의 모든 객체도 삭제 됨
+kubectl delete ns tommybee
+
+
+kubectl expose deploy nginx-deployment --type=ClusterIP --port=80 --target-port=80
+kubectl get svc
+
+kubectl expose deploy nginx-deployment --type=LoadBalancer --port=80 --target-port=80
+kubectl get svc
+
+
+Volumn 관련
+kubectl get sc #storage class
+
+
+kubectl create -f volume-emptydir.yaml
+kubectl apply -f volume-emptydir.yaml
+kubectl get po
+
+생성확인
+kubectl exec -it shared-volumes --container redis -- /bin/bash
+cd /data/shared
+echo test… > test.txt
+
+kubectl exec -it shared-volumes --container nginx -- /bin/bash
+cd /data/shared
+ls
+
+PVC 관련
+kubctl apply -f volume-pvc.yaml
+kubectl get pvc
+kubectl apply -f pod-with-pvc.yaml
+kubectl get po
+
+kubectl exec -it mypod -- /bin/bash
+
+
+
+autoscaling 관련
+kubectl get hpa | kubectl get horizontalpodautoscaler
+
+kubectl apply -f https://k8s.io/examples/application/php-apache.yaml
+kubectl autoscale deployment php-apache --cpu-percent=20 --min=1 --max=10
+
+위의 내용에 대한 부하테스트는 클러스터 내부에서 해야되고
+그런 기능을 가진 컨테이너를 내부에서 생성해서 사용한다.
+
+
+로드 제너레이터(siege)가 설치된 컨테이너 생성
+cat siege.yaml
+kubectl create -f siege.yaml
+kubectl apply -f siege.yaml
+kubectl exec -it siege -- /bin/bash
+siege -c30 -t30S -v http://php-apache
+again..increase concurrent users
+siege -c50 -t30S -v http://php-apache
+
+kubectl get hpa
+NAME         REFERENCE               TARGETS    MINPODS   MAXPODS   REPLICAS   AGE
+php-apache   Deployment/php-apache   222%/20%   1         10        10         15m
+
+
+
+Scenario
+ㅇ ConfigMap 생성
+ㅇ ConfigMap의 환경변수를 읽어 출력하는 NodeJS 어플리케이션 준비
+ㅇ Dockerfile 생성
+ㅇ Dockerizing & Azure Container Registry에 Push
+ㅇ Deployment yaml, Service yaml 준비
+ㅇ 배포 및 서비스 생성
+ㅇ 브라우저를 통해 서비스 확인
+ㅇ ConfigMap의 환경변수를 어플리케이션이 정상적으로 참조하여 출력하는지 여부
+
+kubectl create configmap hello-cm --from-literal=language=java
+kubectl get cm
+kubectl get cm hello-cm -o yaml
+
+
+===
+az acr build --registry skccteam03 --image skccteam03.azurecr.io/cm-sandbox:v1 .
+
+혹은
+
+docker build -t skccteam03.azurecr.io/my-nginx:v1 .
+docker images
+az acr login --name skccteam03
+docker push skccteam03.azurecr.io/my-nginx:v1
+
+===
+
+kubectl apply -f cm-deployment.yaml
+kubectl apply -f cm-service.yaml
+
+웹브라우저에서 확인하기.
+
+configmap 수정하기
+kubectl edit cm hello-cm
+
+
+Secrete 사용
+$ kubectl create secret generic my-password --from-literal=password=mysqlpassword
+$ kubectl get secret
+
+echo bXlzcWxwYXNzd29yZA== | base64 --decode
+
+readiness 와 liveness
+ kubectl apply -f exec-liveness.yaml
+ kubectl get po
+
+kubectl describe pod
+kubectl describe pod liveness
+
+Ingress 
+Helm 3.x 설치(권장)
+curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
+chmod 700 get_helm.sh
+./get_helm.sh
+Helm으로 Ingress Controller 설치
+helm repo add stable https://charts.helm.sh/stable
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm version
+kubectl create namespace ingress-basic
+helm install nginx-ingress ingress-nginx/ingress-nginx --namespace=ingress-basic
+kubectl get all --namespace=ingress-basic
+(Ingress Controller의 EXTERNAL-IP가 API Gateway 엔드포인트: 메모 必)
+20.194.57.55
+
+Ingress 대상 서비스(BLUE, GREEN) 생성
+
+kubectl config current-context
+
+BLUE
+(도커라이징 & 이미지 Push)
+===
+az acr build --registry skccteam03 --image skccteam03.azurecr.io/nginx-blue:latest .
+
+혹은
+
+docker build -t skccteam03.azurecr.io/nginx-blue:latest .
+docker images
+az acr login --name skccteam03
+docker push skccteam03.azurecr.io/nginx-blue:latest
+===
+vi nginx-blue-deployment.yaml
+kubectl apply -f nginx-blue-deployment.yaml
+curl 20.194.57.55:80/blue
+
+GREEN
+===
+az acr build --registry skccteam03 --image skccteam03.azurecr.io/nginx-green:latest .
+
+혹은
+
+docker build -t skccteam03.azurecr.io/nginx-green:v1 .
+docker images
+az acr login --name skccteam03
+docker push skccteam03.azurecr.io/nginx-green:v1
+===
+vi nginx-green-deployment.yaml
+kubectl apply -f nginx-green-deployment.yaml
+
+(서비스 생성 확인)
+kubectl get deploy,service -n ingress-basic
+
+
+Ingress Routing Rule 생성
+kubectl apply -f path-based-ingress.yaml
+kubectl get ingress -n ingress-basic
+
+Ingress 테스트
+인그레이스 리소스 삭제
+kubectl delete namespace ingress-basic
+
+
+kubectl get deploy --namespace ingress-basic
+kubectl delete deploy nginx-blue-deployment --namespace ingress-basic
+kubectl apply -f nginx-blue-deployment.yaml
+
+curl 20.194.57.55:80/blue
+
+kubectl get ns --show-labels
+
+
+# kubectl create deploy nginx --image=nginx
+deployment.apps/nginx created
+# kubectl create deploy nginx --image=nginx -n ingress-basic
+deployment.apps/nginx created
+# kubectl get pod -n ingress-basic
+NAME                                                      READY   STATUS    RESTARTS   AGE
+nginx-blue-deployment-7b64f58976-t9gg8                    1/1     Running   0          5m11s
+nginx-f89759699-rn24m                                     1/1     Running   0          14s
+nginx-green-deployment-549c667686-lbxn8                   1/1     Running   0          40m
+nginx-ingress-ingress-nginx-controller-6b8d8f5947-mdp9k   1/1     Running   0          51m
+# kubectl exec -it nginx-f89759699-rn24m -n ingress-basic -- /bin/bash
+
+# curl nginx-blue-svc:80
+# curl nginx-green-svc:80
+# curl nginx-green-svc.ingress-basic:80
+# curl nginx-green-svc.ingress-basic.svc.cluster.local:80
+exit
+
+kubectl get all -n default
+NAME                        READY   STATUS    RESTARTS   AGE
+pod/nginx-f89759699-x2zn2   1/1     Running   0          5m45s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.0.0.1     <none>        443/TCP   68m
+
+NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/nginx   1/1     1            1           5m45s
+
+NAME                              DESIRED   CURRENT   READY   AGE
+replicaset.apps/nginx-f89759699   1         1         1       5m45s
+
+# kubectl exec -it nginx-f89759699-x2zn2 -- /bin/bash
+# curl nginx-blue-svc:80
+curl: (6) Could not resolve host: nginx-blue-svc
+
+# curl nginx-green-svc.ingress-basic:80
+okey
+# curl nginx-green-svc.ingress-basic.svc.cluster.local:80
+okey
+
+서비스 정리하기
+kubectl delete deploy,service --all
+kubectl delete deploy,service,pod --all
+kubectl delete deploy,service,pod,hpa --all
+kubectl delete pvc --all
+
+kubectl depoly --help
+
+export PROMPT_COMMAND="printf '\e]0;watch\7\n'"
+
+
+MSA 예제 서비스 돌려보기
+실습환경
+http://www.msaez.io/#/login-page?courseId=Container-Orchestration&classId=running%40winter-4th
+접속키 : cloud
+
+오류 디버깅
+http://msaschool.io/operation/checkpoint/check-point-one/
+http://msaschool.io/operation/operation/operation-two/
+
+
+
+만들기
+portal.azure.com
+
+애저 구독을 위한 상속 구조 57 페이지 참고.
+
+리소스그룹 만들기
+https://portal.azure.com/#create/Microsoft.ResourceGroup
+skccteam03-rsrcgrp
+
+Kubernetes 클러스터 만들기
+skccteam03-aks
+
+컨테이너 레지스트리 만들기
+skccteam03
+
+
+
+kafka 설치
+http://msaschool.io/operation/implementation/implementation-seven/
+kubectl --namespace kube-system create sa tiller      # helm 의 설치관리자를 위한 시스템 사용자 생성
+kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tille
+
+helm repo add incubator https://charts.helm.sh/incubator
+helm repo update
+kubectl create ns kafka
+helm install my-kafka --namespace kafka incubator/kafka
+
+
+watch kubectl get all -n kafka
+
+cd /home/project/mall
+customercenter, delivery,  gateway,  order
+
+소스 컴파일
+mvn clean package
+
+az acr login --name skccteam03
+
+(도커라이징 & 이미지 Push)
+===
+az acr build --registry skccteam03 --image skccteam03.azurecr.io/delivery:v1 .
+az acr build --registry skccteam03 --image skccteam03.azurecr.io/order:v1 .
+
+az acr build --registry skccteam03 --image skccteam03.azurecr.io/customercenter:v1 .
+az acr build --registry skccteam03 --image skccteam03.azurecr.io/gateway:v1 .
+
+
+혹은
+
+docker build -t skccteam03.azurecr.io/customercenter:v1 .
+docker push skccteam03.azurecr.io/customercenter:v1
+
+docker build -t skccteam03.azurecr.io/delivery:v1 .
+docker push skccteam03.azurecr.io/delivery:v1
+
+docker build -t skccteam03.azurecr.io/gateway:v1 .
+docker push skccteam03.azurecr.io/gateway:v1
+
+docker build -t skccteam03.azurecr.io/order:v1 .
+docker push skccteam03.azurecr.io/order:v1
+===
+docker images
+
+디플로이먼트 및 서비스 적용
+kubectl apply -f deployment.yml
+deployment.yml 에서 image 이름은 skccteam03.azurecr.io/이름이다.
+kubectl apply -f service.yaml
+
+
+확인
+kubectl get all -n default
+
+kubectl get pod
+kubectl logs order-56fcb8f556-sk42c -n default
+성공메시지는 다음과 같다.
+ INFO 1 --- [container-0-C-1] o.s.c.s.b.k.KafkaMessageChannelBinder$1  : partitions assigned: [mall-0]
+kubectl logs delivery-5c46b9cbc6-ph576 -n default
+
+http-pie 설치
+cd /home/project/container-orchestration/yaml
+kubectl apply -f siege.yaml
+kubectl exec -it pod/siege -- /bin/bash
+http 명령이 있는 지 확인.
+
+kafka 모니터링
+kubectl -n kafka exec -ti my-kafka-0 -- /usr/bin/kafka-console-consumer --bootstrap-server my-kafka:9092 --topic mall --from-beginning
+
+client 요청 만들기
+http http://order:8080
+===
+HTTP/1.1 200 
+Content-Type: application/hal+json;charset=UTF-8
+Date: Wed, 17 Feb 2021 05:42:04 GMT
+Transfer-Encoding: chunked
+
+{
+    "_links": {
+        "orders": {
+            "href": "http://order:8080/orders{?page,size,sort}",
+            "templated": true
+        },
+        "profile": {
+            "href": "http://order:8080/profile"
+        }
+    }
+}
+===
+주문해보기
+http POST http://order:8080/orders productId=100 qty=3
+
+
+http GET http://order:8080/orders/1
+
+
+
+
+부록
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.7.1 TARGET_ARCH=x86_64 sh -
+cd istio-1.7.1
+export PATH=$PWD/bin:$PATH
+istioctl install --set profile=demo --set hub=gcr.io/istio-release
+vi samples/addons/kiali.yaml
+4라인의 apiVersion: apiextensions.k8s.io/v1beta1을 apiVersion: apiextensions.k8s.io/v1으로 수정
+kubectl apply -f samples/addons
+kiali.yaml 오류발생시, 아래 명령어 실행
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.7/samples/addons/kiali.yaml
+
+모니터링(Tracing & Monitoring) 툴 설정
+Monitoring Server - Kiali
+기본 ServiceType 변경 : ClusterIP를 LoadBalancer 로…
+kubectl edit svc kiali -n istio-system
+:%s/ClusterIP/LoadBalancer/g
+
+
+EXTERNAL-IP 확인
+kubectl get svc --namespace istio-system
+모니터링 시스템(kiali) 접속 : EXTERNAL-IP:20001 (admin/admin)
+
+
+Tracing Server - Jaeger
+기본 ServiceType 변경 : ClusterIP를 LoadBalancer 로…
+kubectl edit svc tracing -n istio-system
+:%s/ClusterIP/LoadBalancer/g
+:wq!
+분산추적 시스템(tracing) 접속 : EXTERNAL-IP:80
+
+
+
+git clone https://github.com/redhat-developer-demos/istio-tutorial
+kubectl create namespace tutorial
+kubectl apply -f <(istioctl kube-inject -f customer/kubernetes/Deployment.yml) -n tutorial
+kubectl describe pod customer-5b75ccf59c-2qt2k -n tutorial 로 생성확인
+
+kubectl create -f customer/kubernetes/Service.yml -n tutorial
+
+Istio Gateway 설치 및 Customer 서비스 라우팅(VirtualService) 설정
+cat customer/kubernetes/Gateway.yml
+kubectl apply -f customer/kubernetes/Gateway.yml -n tutorial
+(Istio-IngressGateway를 통한 Customer 서비스 확인)
+kubectl get service/istio-ingressgateway -n istio-system
+해당 EXTERNAL-IP가 Istio Gateway 주소
+Customer 서비스 호출 :
+"http://(istio-ingressgateway IP)/customer"
+http://52.231.103.37/customer
+kubectl get ns --show-labels
+
+20.41.87.142:20001
+52.231.103.37:20001
+52.231.103.37:80
+
+docker build -t skccteam03.azurecr.io/order:v1 .
+kubectl create deploy order --image=skccteam03.azurecr.io/order:v1 -n tutorial
+
+docker build -t skccteam03.azurecr.io/delivery:v1 .
+kubectl create deploy delivery --image=skccteam03.azurecr.io/delivery:v1 -n tutorial
+
+kubectl get all -n tutorial
+
+kubectl expose deploy order --port=8080 -n tutorial
+kubectl expose deploy delivery --port=8080 -n tutorial
+
+
+kubectl apply -f - <<EOF
+    apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: vs-order-network-rule
+      namespace: tutorial
+    spec:
+      hosts:
+      - order
+      http:
+      - route:
+        - destination:
+            host: order
+        timeout: 3s
+EOF
+
+
+siege -c30 -t20S -v --content-type "application/json" 'http://order:8080/orders POST {"productId": "1001", "qty":5}'
+
+
+https://github.com/msaez-examples/food-delivery
+
+
+
+kubectl patch storageclass default -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
+
+kubectl get ns
+kubectl create ns kafka
+
+
+kubectl --namespace kube-system create sa tiller      # helm 의 설치관리자를 위한 시스템 사용자 생성
+kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+
+helm repo add incubator https://charts.helm.sh/incubator
+helm repo update
+kubectl create ns kafka
+helm install my-kafka --namespace kafka incubator/kafka
+
+my-kafka.kafka.svc.cluster.local:9092
+서비스이름.네임스페이스이름.접미사(svc.cluster.local)
+
