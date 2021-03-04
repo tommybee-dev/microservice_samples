@@ -38,7 +38,7 @@ public class AsassignPolicyHandler{
     //private String 호출상태; //호출,호출중,호출확정,호출취소
     @StreamListener(KafkaProcessor.INPUT)
     public void whenever택시할당요청됨_(@Payload AsmanageAssigned asmanageAssigned){
-    	System.out.println("##### EVT TYPE[택시할당요청됨]  : " + asmanageAssigned.getEventType());
+    	System.out.println("##### EVT TYPE[AS기사요청됨]  : " + asmanageAssigned.getEventType());
         if(asmanageAssigned.isMe()){
             System.out.println("##### listener  : " + asmanageAssigned.toJson());
             
@@ -56,7 +56,7 @@ public class AsassignPolicyHandler{
             	asassignCompleted.setStatus("할당확정");
             	asassignCompleted.setTel(asmanageAssigned.getTel());
             	asassignCompleted.setLocation(asmanageAssigned.getLocation());
-            	asassignCompleted.setEventType("할당확인됨");
+            	asassignCompleted.setEventType("AsassignCompleted");
             	//택시할당요청됨.publishAfterCommit();
             	asassignCompleted.publish(); 
             }  
@@ -65,20 +65,16 @@ public class AsassignPolicyHandler{
     
     @StreamListener(KafkaProcessor.INPUT)
     public void whenever할당확인됨_(@Payload AsassignCompleted asassignCompleted){
-    	System.out.println("##### EVT TYPE[할당확인됨]  : " + asassignCompleted.getEventType());
+    	System.out.println("##### EVT TYPE[기사할당확인됨]  : " + asassignCompleted.getEventType());
         if(asassignCompleted.isMe()){
             System.out.println("##### listener  : " + asassignCompleted.toJson());
             
             if(asassignCompleted.getStatus() != null  && asassignCompleted.getStatus().equals("할당확정"))
             {
-            	
-//            	할당확인됨 할당확인됨 = Assigner.get택시할당됨();
-//            	BeanUtils.copyProperties(택시할당요청됨, 할당확인됨);
-//            	
-//                //할당확인됨.setEventType("할당확인됨");
-//            	할당확인됨.setEventType("할당확인됨");
-//            	//택시할당요청됨.publishAfterCommit();
-//            	할당확인됨.publish(); 
+            	asassignRepository.findById(Long.valueOf(asassignCompleted.getId())).ifPresent((asassign) -> {
+                	asassign.setStatus("할당취소");
+                	asassignRepository.save(asassign);
+    			});
             }  
         }
     }

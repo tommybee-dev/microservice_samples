@@ -15,7 +15,7 @@ spec:
         app: ascall
     spec:
       containers:
-        - name: taxicall
+        - name: ascall
           image: skccteam03.azurecr.io/ascall:v1
           ports:
             - containerPort: 8080

@@ -8,7 +8,7 @@ import socket
 
 
 # To consume latest messages and auto-commit offsets
-consumer = KafkaConsumer('taxiguider',
+consumer = KafkaConsumer('ascenter',
                          group_id='customer',
                          bootstrap_servers=['localhost:9092'])
 for message in consumer:

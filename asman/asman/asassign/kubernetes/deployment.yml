@@ -15,7 +15,7 @@ spec:
         app: asassign
     spec:
       containers:
-        - name: taxiassign
+        - name: asassign
           image: skccteam03.azurecr.io/asassign:v1
           ports:
             - containerPort: 8080
