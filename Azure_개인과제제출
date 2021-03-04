@@ -188,7 +188,7 @@ chmod 700 get_helm.sh
 
 helm version #버전확인
 
-버전 2:
+helm 버전이 2 인 경우:
 curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
 kubectl --namespace kube-system create sa tiller      # helm 의 설치관리자를 위한 시스템 사용자 생성
 kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
@@ -199,7 +199,7 @@ helm repo add incubator https://charts.helm.sh/incubator
 helm repo update
 helm install --name my-kafka --namespace kafka incubator/kafka
 
-버전3
+helm 버전이 3 인 경우:
 kubectl --namespace kube-system create sa tiller      # helm 의 설치관리자를 위한 시스템 사용자 생성
 kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
 
@@ -208,15 +208,25 @@ helm repo update
 kubectl create ns kafka
 helm install my-kafka --namespace kafka incubator/kafka
 
+카프카 확인 작업
+kubectl get all -n kafka
 
+kubectl get pvc
 
-버전 3:
-kubectl --namespace kube-system create sa tiller      # helm 의 설치관리자를 위한 시스템 사용자 생성
-kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+==================================================
+2. Azure Cluster 카프카 설치 문제
+==================================================
 
-helm repo add bitnami https://charts.bitnami.com/bitnami
-helm repo update
-helm install my-kafka bitnami/kafka -n kafka
+* 카프카 서버 설치오류 원인 : Default StorageClass가 없음으로해서 기인함
+  > Azure Cloud에서 2/25 Patch
+
+  > Solution : 아래 명령어로 StorageClass의 default provisioner 설정
+     kubectl patch storageclass managed -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+
+  > 현재 kafka 네임스페이스가 생성되어 있으면 삭제 후, 
+     kubectl delete ns
+     msaschool.io 메뉴의 구현>이벤트기반 메시지채널 > 쿠버네티스에 카프카 설치 및 실행 section 참조.
+
 
 # 카프카 Client 설치
 kubectl apply -f - <<EOF
@@ -404,19 +414,7 @@ kubectl describe pod my-kafka-0 --namespace=kafka
 
 
 
-==================================================
-2. Azure Cluster 카프카 설치 문제
-==================================================
 
-* 카프카 서버 설치오류 원인 : Default StorageClass가 없음으로해서 기인함
-  > Azure Cloud에서 2/25 Patch
-
-  > Solution : 아래 명령어로 StorageClass의 default provisioner 설정
-     kubectl patch storageclass managed -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-
-  > 현재 kafka 네임스페이스가 생성되어 있으면 삭제 후, 
-     kubectl delete ns
-     msaschool.io 메뉴의 구현>이벤트기반 메시지채널 > 쿠버네티스에 카프카 설치 및 실행 section 참조.
 
 3. 이벤트스토밍 도구에서 코드 Generation 
 ==================================================
