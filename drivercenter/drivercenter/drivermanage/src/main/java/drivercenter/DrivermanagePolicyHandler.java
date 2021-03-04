@@ -26,7 +26,7 @@ public class DrivermanagePolicyHandler {
 			if (drivercallCancelled.getId() != null)
 				// Correlation id 는 '고객휴대폰번호' 임
 				drivermanageRepository.findById(Long.valueOf(drivercallCancelled.getId())).ifPresent((택시관리) -> {
-					택시관리.setStatus("DrivercallCancelled");
+					택시관리.setStatus("대리기사호출취소");
 					drivermanageRepository.save(택시관리);
 				});
 		}

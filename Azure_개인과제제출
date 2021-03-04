@@ -211,9 +211,8 @@ helm install my-kafka --namespace kafka incubator/kafka
 카프카 확인 작업
 kubectl get all -n kafka
 
-kubectl get pvc
-kubectl get pvc --all-namespaces
-
+kubectl get sc 
+위의 명령으로 default 가 있으면 된다.
 
 # 카프카 Client 설치
 kubectl apply -f - <<EOF
@@ -232,11 +231,12 @@ spec:
       - "sleep infinity"
   restartPolicy: Never
 EOF
-
+==========================================================
 
 8. 소스 다운로드 및 빌드
 git clone https://github.com/tommybee-dev/taxi-guide.git
 
+9. 패키징 작업
 패키징 한다.
 cd gateway
 mvn clean && mvn package

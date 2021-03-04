@@ -92,22 +92,10 @@ public class Pickupcall {
 
 	@PreRemove
 	public void onPreRemove(){
-		PickupcallCancelled 호출취소됨 = new PickupcallCancelled();
-		BeanUtils.copyProperties(this, 호출취소됨);
-		호출취소됨.publishAfterCommit();
+		PickupcallCancelled pickupcallCancelled = new PickupcallCancelled();
+		BeanUtils.copyProperties(this, pickupcallCancelled);
+		pickupcallCancelled.publishAfterCommit();
 
-		//Following code causes dependency to external APIs
-		// it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
-
-		//택시관리 택시관리 = new 택시관리();
-		// mappings goes here
-		//택시관리.setId(getId());
-		//택시관리.setOrderId(String.valueOf(getId()));
-		//택시관리.set호출상태("호출취소");
-		//택시관리.set고객휴대폰번호(get휴대폰번호());
-		
-		// mappings goes here
-		//TaxicallApplication.applicationContext.getBean(택시관리Service.class).택시할당요청(택시관리);
 	}
 
 

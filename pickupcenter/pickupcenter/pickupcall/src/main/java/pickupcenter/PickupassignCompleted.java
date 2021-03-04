@@ -8,6 +8,8 @@ public class PickupassignCompleted extends AbstractEvent {
     private String workerid;
     private String worker;
     private String workertel;
+    private String tel;
+    private String location;
     
     public String getStatus() {
 		return status;
@@ -40,11 +42,24 @@ public class PickupassignCompleted extends AbstractEvent {
 	public void setWorkertel(String workertel) {
 		this.workertel = workertel;
 	}
-
-	private String 고객휴대폰번호;
-    private String 호출위치;
     
-    public Long getId() {
+    public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public Long getId() {
         return id;
     }
 
@@ -52,20 +67,5 @@ public class PickupassignCompleted extends AbstractEvent {
         this.id = id;
     }
 
-	public String get고객휴대폰번호() {
-		return 고객휴대폰번호;
-	}
-
-	public void set고객휴대폰번호(String 고객휴대폰번호) {
-		this.고객휴대폰번호 = 고객휴대폰번호;
-	}
-
-	public String get호출위치() {
-		return 호출위치;
-	}
-
-	public void set호출위치(String 호출위치) {
-		this.호출위치 = 호출위치;
-	}
 
 }

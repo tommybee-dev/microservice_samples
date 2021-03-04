@@ -18,9 +18,9 @@ public class PickupcallPolicyHandler {
 	}
 
 	@StreamListener(KafkaProcessor.INPUT)
-	public void whenever할당확인됨_(@Payload PickupassignCompleted pickupassignCompleted) {
+	public void wheneverPickupassignCompleted_(@Payload PickupassignCompleted pickupassignCompleted) {
 		System.out.println("##### EVT TYPE[할당확인됨]  : " + pickupassignCompleted.getEventType());
-		if (pickupassignCompleted.isMe() && pickupassignCompleted.get고객휴대폰번호() != null) {
+		if (pickupassignCompleted.isMe() && pickupassignCompleted.getTel() != null) {
 
 //           try {
 //               // 원래 데이터가 트랜잭션 커밋되기도 전에 이벤트가 너무 빨리 도달하는 경우를 막기 위함
@@ -54,7 +54,7 @@ public class PickupcallPolicyHandler {
 	}
 
 	@StreamListener(KafkaProcessor.INPUT)
-	public void whenever할당취소됨_(@Payload PickupmanageCancelled pickupmanageCancelled) {
+	public void wheneverPickupmanageCancelled_(@Payload PickupmanageCancelled pickupmanageCancelled) {
 		System.out.println("##### EVT TYPE[할당취소됨]  : " + pickupmanageCancelled.getEventType());
 		if (pickupmanageCancelled.isMe()) {
 			System.out.println("##### listener[할당취소됨]  : " + pickupmanageCancelled.toJson());
