@@ -18,7 +18,7 @@ public class DrivermanagePolicyHandler {
 	}
 
 	@StreamListener(KafkaProcessor.INPUT)
-	public void whenever호출취소됨_(@Payload DrivercallCancelled drivercallCancelled) {
+	public void wheneverDrivercallCancelled_(@Payload DrivercallCancelled drivercallCancelled) {
 		System.out.println("##### EVT TYPE[호출취소됨]  : " + drivercallCancelled.getEventType());
 		if (drivercallCancelled.isMe()) {
 			System.out.println("##### listener  : " + drivercallCancelled.toJson());
@@ -33,7 +33,7 @@ public class DrivermanagePolicyHandler {
 	}
 
 	@StreamListener(KafkaProcessor.INPUT)
-	public void whenever택시할당요청됨_(@Payload DrivermanageAssigned drivermanageAssigned) {
+	public void wheneverDrivermanageAssigned_(@Payload DrivermanageAssigned drivermanageAssigned) {
 		System.out.println("##### EVT TYPE[택시할당요청됨]  : " + drivermanageAssigned.getEventType());
 		if (drivermanageAssigned.isMe()) {
 			System.out.println("##### listener[할당확인됨]  : " + drivermanageAssigned.toJson());

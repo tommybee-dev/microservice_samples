@@ -18,6 +18,8 @@ public class Cleanmanage {
     private String status; //호출,호출중,호출확정,호출취소
     private Integer cost;
     
+    
+    
     private String cleanmanid;
     private String cleanman;
     private String cleanmantel;
@@ -48,7 +50,7 @@ public class Cleanmanage {
 
         }else{
 
-        	status = "called";
+        	status = "호출중";
         	CleanmanageAssigned cleanmanageAssigned = new CleanmanageAssigned();
         	cleanmanageAssigned.setId(Long.valueOf(orderId));
         	
@@ -98,6 +100,9 @@ public class Cleanmanage {
 	public void setCost( Integer cost ) {
 		this.cost = cost;
 	}
+	
+	public String getTel() {return tel;}
+	public void setTel(String s) {tel = s; }
 	
 	public String getStatus() {return status;}
 	public void setStatus(String s) {status = s; }

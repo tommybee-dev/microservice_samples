@@ -10,7 +10,7 @@ import cleanassign.config.kafka.KafkaProcessor;
 @Service
 public class CleanassignPolicyHandler {
 	@Autowired
-	CleanassignRepository 할당Repository;
+	CleanassignRepository cleanassignRepository;
 
 	@StreamListener(KafkaProcessor.INPUT)
 	public void onStringEventListener(@Payload String eventString) {
@@ -22,7 +22,7 @@ public class CleanassignPolicyHandler {
 			{ "장윤정", "010-5345-9789", "64라4567" }, { "옥준삼", "010-6345-0789", "74마4567" },
 			{ "유승오", "010-7345-1789", "84사4567" } };
 
-	public static CleanassignCompleted get택시할당됨() {
+	public static CleanassignCompleted getCleanassign() {
 		CleanassignCompleted cleanassignCompleted = new CleanassignCompleted();
 
 		int randDriver = (int) (Math.random() * 6);
@@ -34,7 +34,7 @@ public class CleanassignPolicyHandler {
 
 	// private String 호출상태; //호출,호출중,호출확정,호출취소
 	@StreamListener(KafkaProcessor.INPUT)
-	public void whenever택시할당요청됨_(@Payload CleanmanageAssigned cleanmanageAssigned) {
+	public void wheneverCleanmanageAssigned_(@Payload CleanmanageAssigned cleanmanageAssigned) {
 		System.out.println("##### EVT TYPE[CleanmanageAssigned]  : " + cleanmanageAssigned.getEventType());
 		if (cleanmanageAssigned.isMe()) {
 			System.out.println("##### listener  : " + cleanmanageAssigned.toJson());
@@ -47,25 +47,25 @@ public class CleanassignPolicyHandler {
 				// CleanassignCompleted.setEventType("CleanassignCompleted");
 				cleanmanageAssigned.publish();
 
-				CleanassignCompleted 할당확인됨 = get택시할당됨();
-				할당확인됨.setId(cleanmanageAssigned.getId());
-				할당확인됨.setAssignstatus("할당확정");
-				할당확인됨.setTel(cleanmanageAssigned.getTel());
-				할당확인됨.setLocation(cleanmanageAssigned.getLocation());
-				할당확인됨.setEventType("CleanassignCompleted");
+				CleanassignCompleted cleanassignCompleted = getCleanassign();
+				cleanassignCompleted.setId(cleanmanageAssigned.getId());
+				cleanassignCompleted.setAssignstatus("할당확정");
+				cleanassignCompleted.setTel(cleanmanageAssigned.getTel());
+				cleanassignCompleted.setLocation(cleanmanageAssigned.getLocation());
+				cleanassignCompleted.setEventType("CleanassignCompleted");
 				// CleanmanageAssigned.publishAfterCommit();
-				할당확인됨.publish();
+				cleanassignCompleted.publish();
 			}
 		}
 	}
 
 	@StreamListener(KafkaProcessor.INPUT)
-	public void whenever할당확인됨_(@Payload CleanassignCompleted 할당확인됨) {
-		System.out.println("##### EVT TYPE[CleanassignCompleted]  : " + 할당확인됨.getEventType());
-		if (할당확인됨.isMe()) {
-			System.out.println("##### listener  : " + 할당확인됨.toJson());
+	public void wheneverCleanassignCompleted_(@Payload CleanassignCompleted cleanassignCompleted) {
+		System.out.println("##### EVT TYPE[CleanassignCompleted]  : " + cleanassignCompleted.getEventType());
+		if (cleanassignCompleted.isMe()) {
+			System.out.println("##### listener  : " + cleanassignCompleted.toJson());
 
-			if (할당확인됨.getAssignstatus() != null && 할당확인됨.getAssignstatus().equals("할당확정")) {
+			if (cleanassignCompleted.getAssignstatus() != null && cleanassignCompleted.getAssignstatus().equals("할당확정")) {
 
 //            	CleanassignCompleted CleanassignCompleted = Assigner.get택시할당됨();
 //            	BeanUtils.copyProperties(CleanmanageAssigned, CleanassignCompleted);
@@ -79,17 +79,17 @@ public class CleanassignPolicyHandler {
 	}
 
 	@StreamListener(KafkaProcessor.INPUT)
-	public void whenever택시할당취소됨_(@Payload CleanmanageCancelled 택시할당취소됨) {
+	public void wheneverCleanmanageCancelled_(@Payload CleanmanageCancelled cleanmanageCancelled) {
 
-		if (택시할당취소됨.isMe()) {
-			System.out.println("##### listener  : " + 택시할당취소됨.toJson());
+		if (cleanmanageCancelled.isMe()) {
+			System.out.println("##### listener  : " + cleanmanageCancelled.toJson());
 
-			할당Repository.findById(Long.valueOf(택시할당취소됨.getId())).ifPresent((택시호출) -> {
+			cleanassignRepository.findById(Long.valueOf(cleanmanageCancelled.getId())).ifPresent((택시호출) -> {
 				택시호출.setStatus("할당취소");
-				할당Repository.save(택시호출);
+				cleanassignRepository.save(택시호출);
 			});
 
-			택시할당취소됨.publish();
+			cleanmanageCancelled.publish();
 		}
 	}
 

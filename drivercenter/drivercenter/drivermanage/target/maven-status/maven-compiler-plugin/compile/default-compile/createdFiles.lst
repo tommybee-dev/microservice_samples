@@ -1,10 +1,10 @@
 drivercenter\AbstractEvent.class
 drivercenter\Drivermanage.class
 drivercenter\DrivermanageCancelled.class
-drivercenter\TaximanageApplication.class
 drivercenter\DrivermanageAssigned.class
 drivercenter\DrivermanagePolicyHandler.class
 drivercenter\config\kafka\KafkaProcessor.class
+drivercenter\DrivermanageApplication.class
 drivercenter\DrivermanageRepository.class
 drivercenter\DrivermanageController.class
 drivercenter\DrivercallCancelled.class

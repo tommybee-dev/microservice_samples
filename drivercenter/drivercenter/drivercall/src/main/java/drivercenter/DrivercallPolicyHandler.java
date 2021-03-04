@@ -18,8 +18,8 @@ public class DrivercallPolicyHandler {
 	}
 
 	@StreamListener(KafkaProcessor.INPUT)
-	public void whenever할당확인됨_(@Payload DriverassignCompleted driverassignCompleted) {
-		System.out.println("##### EVT TYPE[할당확인됨]  : " + driverassignCompleted.getEventType());
+	public void wheneverDriverassignCompleted_(@Payload DriverassignCompleted driverassignCompleted) {
+		System.out.println("##### EVT TYPE[대리기사할당확인됨]  : " + driverassignCompleted.getEventType());
 		if (driverassignCompleted.isMe() && driverassignCompleted.getTel() != null) {
 
 //           try {
@@ -54,7 +54,7 @@ public class DrivercallPolicyHandler {
 	}
 
 	@StreamListener(KafkaProcessor.INPUT)
-	public void whenever할당취소됨_(@Payload DriverassignCancelled driverassignCancelled) {
+	public void wheneverDriverassignCancelled_(@Payload DriverassignCancelled driverassignCancelled) {
 		System.out.println("##### EVT TYPE[할당취소됨]  : " + driverassignCancelled.getEventType());
 		if (driverassignCancelled.isMe()) {
 			System.out.println("##### listener[할당취소됨]  : " + driverassignCancelled.toJson());

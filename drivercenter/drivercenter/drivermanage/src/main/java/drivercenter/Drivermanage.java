@@ -52,27 +52,7 @@ public class Drivermanage {
             drivermanageCancelled.publish();
 
         }else{
-//            결제승인됨 결제승인됨 = new 결제승인됨();
-//            BeanUtils.copyProperties(this, 결제승인됨);
-//
-//            //바로 이벤트를 보내버리면 주문정보가 커밋되기도 전에 배송발송됨 이벤트가 발송되어 주문테이블의 상태가 바뀌지 않을 수 있다.
-//            // TX 리스너는 커밋이 완료된 후에 이벤트를 발생하도록 만들어준다.
-//            TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
-//                @Override
-//                public void beforeCommit(boolean readOnly) {
-//                    결제승인됨.publish();
-//                }
-//            });
-        	
-//        	택시번호 = "";
-//            택시기사이름 = "";
-//            택시기사전화번호 = "";
-//            orderId = "1";
-//            고객휴대폰번호 = "";
-//            호출위치 = "";
-//            호출상태 = ""; //호출,호출중,호출확정,호출취소
-//            예상요금 = 0;
-            
+
         	status = "호출중";
         	DrivermanageAssigned drivermanageAssigned = new DrivermanageAssigned();
         	drivermanageAssigned.setId(Long.valueOf(orderId));

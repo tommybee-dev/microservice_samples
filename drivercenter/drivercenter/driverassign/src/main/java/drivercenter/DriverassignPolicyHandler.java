@@ -37,14 +37,14 @@ public class DriverassignPolicyHandler{
     
     //private String 호출상태; //호출,호출중,호출확정,호출취소
     @StreamListener(KafkaProcessor.INPUT)
-    public void whenever택시할당요청됨_(@Payload DrivermanageAssigned drivermanageAssigned){
-    	System.out.println("##### EVT TYPE[택시할당요청됨]  : " + drivermanageAssigned.getEventType());
+    public void wheneverDrivermanageAssigned_(@Payload DrivermanageAssigned drivermanageAssigned){
+    	System.out.println("##### EVT TYPE[대리기사요청됨]  : " + drivermanageAssigned.getEventType());
         if(drivermanageAssigned.isMe()){
             System.out.println("##### listener  : " + drivermanageAssigned.toJson());
             
             if(drivermanageAssigned.getStatus() != null  && drivermanageAssigned.getStatus().equals("호출중"))
             {     	
-            	drivermanageAssigned.setStatus("호출확정");
+            	drivermanageAssigned.setStatus("대리기사호출확정");
             	//할당확인됨 할당확인됨 = Assigner.get택시할당됨();
             	//BeanUtils.copyProperties(택시할당요청됨, 할당확인됨);
             	//할당확인됨.setEventType("할당확인됨");
@@ -52,10 +52,10 @@ public class DriverassignPolicyHandler{
             	
             	DriverassignCompleted diverassignCompleted = getDriverassignCompleted();
             	diverassignCompleted.setId(drivermanageAssigned.getId());
-            	diverassignCompleted.setAssignstatus("할당확정");
+            	diverassignCompleted.setAssignstatus("대리기사할당확정");
             	diverassignCompleted.setTel(drivermanageAssigned.getTel());
             	diverassignCompleted.setLocation(drivermanageAssigned.getLocation());
-            	diverassignCompleted.setEventType("DrivermanageAssigned");
+            	diverassignCompleted.setEventType("DriverassignCompleted");
             	//diverassignCompleted.publishAfterCommit();
             	diverassignCompleted.publish(); 
             }  
@@ -63,35 +63,32 @@ public class DriverassignPolicyHandler{
     }
     
     @StreamListener(KafkaProcessor.INPUT)
-    public void whenever할당확인됨_(@Payload DriverassignCompleted driverassignCompleted){
-    	System.out.println("##### EVT TYPE[할당확인됨]  : " + driverassignCompleted.getEventType());
+    public void wheneverDriverassignCompleted_(@Payload DriverassignCompleted driverassignCompleted){
+    	System.out.println("##### EVT TYPE[대리기사할당확인됨]  : " + driverassignCompleted.getEventType());
         if(driverassignCompleted.isMe()){
             System.out.println("##### listener  : " + driverassignCompleted.toJson());
             
             if(driverassignCompleted.getAssignstatus() != null  && driverassignCompleted.getAssignstatus().equals("할당확정"))
-            {
+            {           	
+            	driverassignRepository.findById(Long.valueOf(driverassignCompleted.getId())).ifPresent((driverassign) -> {
+                	driverassign.setStatus("대리기사할당됨");
+                	driverassignRepository.save(driverassign);
+    			});
             	
-//            	할당확인됨 할당확인됨 = Assigner.get택시할당됨();
-//            	BeanUtils.copyProperties(택시할당요청됨, 할당확인됨);
-//            	
-//                //할당확인됨.setEventType("할당확인됨");
-//            	할당확인됨.setEventType("할당확인됨");
-//            	//택시할당요청됨.publishAfterCommit();
-//            	할당확인됨.publish(); 
             }  
         }
     }
     
     
     @StreamListener(KafkaProcessor.INPUT)
-    public void whenever택시할당취소됨_(@Payload DrivermanageCancelled drivermanageCancelled){
+    public void wheneverDrivermanageCancelled_(@Payload DrivermanageCancelled drivermanageCancelled){
+    	System.out.println("##### EVT TYPE[대리기사할당취소됨]  : " + drivermanageCancelled.getEventType());
     	
         if(drivermanageCancelled.isMe()){
             System.out.println("##### listener  : " + drivermanageCancelled.toJson());
             
-            
             driverassignRepository.findById(Long.valueOf(drivermanageCancelled.getId())).ifPresent((driverassign) -> {
-            	driverassign.setStatus("할당취소");
+            	driverassign.setStatus("대리할당취소");
             	driverassignRepository.save(driverassign);
 			});
             

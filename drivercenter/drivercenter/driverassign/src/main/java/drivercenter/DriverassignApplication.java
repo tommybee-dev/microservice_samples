@@ -12,9 +12,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableBinding(KafkaProcessor.class)
 @EnableFeignClients
-public class TaximanageApplication {
+public class DriverassignApplication {
     protected static ApplicationContext applicationContext;
     public static void main(String[] args) {
-        applicationContext = SpringApplication.run(TaximanageApplication.class, args);
+        applicationContext = SpringApplication.run(DriverassignApplication.class, args);
     }
 }
