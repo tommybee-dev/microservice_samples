@@ -18,7 +18,7 @@ public class StoragemanagePolicyHandler {
 	}
 
 	@StreamListener(KafkaProcessor.INPUT)
-	public void whenever호출취소됨_(@Payload StoragecallCancelled storagecallCancelled) {
+	public void wheneverStoragecallCancelled_(@Payload StoragecallCancelled storagecallCancelled) {
 		System.out.println("##### EVT TYPE[StoragecallCancelled]  : " + storagecallCancelled.getEventType());
 		if (storagecallCancelled.isMe()) {
 			System.out.println("##### listener  : " + storagecallCancelled.toJson());
@@ -33,7 +33,7 @@ public class StoragemanagePolicyHandler {
 	}
 
 	@StreamListener(KafkaProcessor.INPUT)
-	public void whenever택시할당요청됨_(@Payload StoragemanageAssigned storagemanageAssigned) {
+	public void wheneverStoragemanageAssigned_(@Payload StoragemanageAssigned storagemanageAssigned) {
 		System.out.println("##### EVT TYPE[StoragemanageAssigned]  : " + storagemanageAssigned.getEventType());
 		if (storagemanageAssigned.isMe()) {
 			System.out.println("##### listener[StorageassignCompleted]  : " + storagemanageAssigned.toJson());

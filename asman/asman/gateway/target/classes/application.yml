@@ -41,22 +41,18 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: taxicall
-          uri: http://taxicall:8080
+        - id: ascall
+          uri: http://ascall:8080
           predicates:
-            - Path=/택시호출s/** 
-        - id: taximanage
-          uri: http://taximanage:8080
+            - Path=/ascalls/** 
+        - id: asmanage
+          uri: http://asmanage:8080
           predicates:
-            - Path=/택시관리s/** 
-        - id: customer
-          uri: http://customer:8080
+            - Path=/asmanages/** 
+        - id: asassign
+          uri: http://asassign:8080
           predicates:
-            - Path= /택시호출정보/**
-        - id: taxiassign
-          uri: http://taxiassign:8080
-          predicates:
-            - Path=/택시할당s/** 
+            - Path=/asassigns/** 
       globalcors:
         corsConfigurations:
           '[/**]':

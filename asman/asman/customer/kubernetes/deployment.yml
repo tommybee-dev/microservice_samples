@@ -20,4 +20,4 @@ spec:
 #          ports:
 #            - containerPort: 8083
         - name: policy-handler
-          image: skccteam03.azurecr.io/customer-policy-handler:v2
+          image: skuser08.azurecr.io/customer-policy-handler:v1

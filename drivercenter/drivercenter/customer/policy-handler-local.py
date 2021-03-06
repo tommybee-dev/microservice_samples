@@ -15,7 +15,8 @@ consumer = KafkaConsumer('drivercenter',
 						 bootstrap_servers=KAFKA_HOSTS)
 #                         bootstrap_servers=KAFKA_HOSTS, api_version=KAFKA_VERSION)
 for message in consumer:
-  print ("%s:%d:%d: key=%s value=%s" % (message.topic, message.partition, message.offset, message.key, message.value.decode('utf-8')))
+  print ("%s:%d:%d: key=%s value=%s" % (message.topic, message.partition, 
+          message.offset, message.key, message.value.decode('utf-8')))
 
 
 
